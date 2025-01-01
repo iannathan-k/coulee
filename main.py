@@ -52,8 +52,7 @@ def __main__():
             turn = not turn
 
         else:
-            coulee_move = minimax(board, depth, turn)
-            print(coulee_move)
+            coulee_move = minimax(board, depth, -inf, inf, turn)
             move_piece(coulee_move[1][0], coulee_move[1][1])
             print("Evaluation,", coulee_move[0])
             print_board()

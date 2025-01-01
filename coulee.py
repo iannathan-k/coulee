@@ -25,7 +25,7 @@ def get_possible_moves(board, side):
 
     return possible_moves
 
-def minimax(board, depth, turn):
+def minimax(board, depth, alpha, beta, turn):
     if depth == 0 or determine_winner(board, turn) != PieceColor.EMPTY:
         return [evaluate_board(board, turn), []]
 
@@ -33,16 +33,22 @@ def minimax(board, depth, turn):
         max_eval = [-inf, []]
         for move in get_possible_moves(board, turn):
             new_board = move_state(board, move[0], move[1])
-            evaluation = minimax(new_board, depth - 1, False)[0]
+            evaluation = minimax(new_board, depth - 1, alpha, beta, False)[0]
             if evaluation > max_eval[0]:
                 max_eval = [evaluation, move]
+            alpha = max(alpha, evaluation)
+            if beta <= alpha:
+                break
         return max_eval
 
     else:
         min_eval = [+inf, []]
         for move in get_possible_moves(board, turn):
             new_board = move_state(board, move[0], move[1])
-            evaluation = minimax(new_board, depth - 1, True)[0]
+            evaluation = minimax(new_board, depth - 1, alpha, beta, True)[0]
             if evaluation < min_eval[0]:
                 min_eval = [evaluation, move]
+            beta = min(beta, evaluation)
+            if beta <= alpha:
+                break
         return min_eval
