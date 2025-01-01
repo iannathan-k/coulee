@@ -1,5 +1,4 @@
 from pieces import *
-from math import inf
 
 def determine_winner(board, turn):
     # turn = True --> White
@@ -10,13 +9,13 @@ def determine_winner(board, turn):
         piece = board[i // 3][i % 3]
 
         if piece.get_color() == PieceColor.WHITE:
-            if piece.get_position() in range(6, 8):
+            if piece.get_position() in range(6, 9):
                 return PieceColor.WHITE
             if piece.get_moves(board):
                 white_move = True
 
         elif piece.get_color() == PieceColor.BLACK:
-            if piece.get_position() in range(0, 2):
+            if piece.get_position() in range(0, 3):
                 return PieceColor.BLACK
             if piece.get_moves(board):
                 black_move = True
@@ -30,9 +29,9 @@ def determine_winner(board, turn):
 
 def evaluate_board(board, turn):
     if determine_winner(board, turn) == PieceColor.BLACK:
-        return -inf
+        return -100
     elif determine_winner(board, turn) == PieceColor.WHITE:
-        return inf
+        return 100
 
     white_advantage = 0
     black_advantage = 0

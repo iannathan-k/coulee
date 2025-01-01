@@ -1,5 +1,6 @@
 from pieces import *
 from evaluator import *
+from coulee import *
 
 board = [
     [Empty(), Empty(), Empty()],
@@ -31,3 +32,39 @@ def move_piece(origin_pos, target_pos):
     board[target_pos // 3][target_pos % 3] = board[origin_pos // 3][origin_pos % 3]
     board[origin_pos // 3][origin_pos % 3] = Empty()
     board[target_pos // 3][target_pos % 3].set_position(target_pos)
+
+def __main__():
+    depth = int(input("Recursion Depth?: "))
+    turn = input("Black or White?: ")
+    if turn.lower() in ['b', 'black', 'false']:
+        turn = False
+    else:
+        turn = True
+
+    print_board()
+
+    while True:
+        if turn:
+            origin = int(input("Player piece: "))
+            target = int(input("Player move: "))
+            move_piece(origin, target)
+            print_board()
+            turn = not turn
+
+        else:
+            coulee_move = minimax(board, depth, turn)
+            print(coulee_move)
+            move_piece(coulee_move[1][0], coulee_move[1][1])
+            print("Evaluation,", coulee_move[0])
+            print_board()
+            turn = not turn
+
+        if determine_winner(board, turn) == PieceColor.WHITE:
+            print("WHITE WON")
+            break
+        if determine_winner(board, turn) == PieceColor.BLACK:
+            print("BLACK WON")
+            break
+
+if __name__ == "__main__":
+    __main__()
